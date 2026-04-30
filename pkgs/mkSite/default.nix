@@ -59,7 +59,6 @@ in
         generatedPosts}
 
       cp -r ${../../css}/* $out/css/
-      cp ${../../js/highlight.min.js} $out/js/
       cp ${rssFeed} $out/rss.xml
       cp ${indexHtml} $out/index.html
     '';
