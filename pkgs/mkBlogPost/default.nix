@@ -19,6 +19,7 @@ pkgs.stdenv.mkDerivation {
     cp ${../../templates/template_article.html} ./template_article.html
 
     pandoc main.md \
+      --from gfm+alerts \
       --standalone \
       --template=./template_article.html \
       --highlight-style=breezedark \
@@ -28,7 +29,7 @@ pkgs.stdenv.mkDerivation {
       -V pubDate="${pubDate}" \
       -V slug="${slug}" \
       -V base="${baseUrl}/blog/${slug}" \
-      -V maxwidth="48rem"
+      -V document-css=false
   '';
 
   installPhase = ''

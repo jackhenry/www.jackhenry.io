@@ -7,11 +7,22 @@
   <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/rss.xml">
 </head>
 <body>
+  <nav class="menu">
+    <a href="/">Home</a>
+    <a href="/lab">Lab</a>
+    <a href="/rss.xml">RSS</a>
+  </nav>
   <main>
-    <h1>Posts</h1>
-    <ul>
-      {{posts}}
-    </ul>
+    <header class="bio">
+      <h1>Jack Henry</h1>
+      <p>An attempt at jotting down some thoughts. Below, you'll find a nascent collection of writings. Built using Nix. Not out of necessity, but because it seemed cool.</p>
+    </header>
+    <section>
+      <h2>Posts</h2>
+      <ul>
+        {{posts}}
+      </ul>
+    </section>
   </main>
 </body>
 </html>
