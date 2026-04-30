@@ -22,6 +22,9 @@
             yq
             static-web-server
             watchexec
+            vscode-css-languageserver
+            superhtml
+            typescript-language-server
           ];
 
           shellHook = ''
