@@ -4,18 +4,17 @@
   title,
   description,
   pubDate,
-  slug,
+  pageName,
   baseUrl,
 }:
 pkgs.stdenv.mkDerivation {
-  name = slug;
+  name = pageName;
   inherit src;
 
   buildInputs = [pkgs.pandoc];
 
   buildPhase = ''
-    mkdir -p $out/img
-    cp -r img/* $out/img/ 2>/dev/null || true
+    mkdir -p $out
     cp ${../../templates/template_page.html} ./template_page.html
 
     pandoc main.md \
@@ -27,13 +26,11 @@ pkgs.stdenv.mkDerivation {
       -V title="${title}" \
       -V description="${description}" \
       -V pubDate="${pubDate}" \
-      -V slug="${slug}" \
-      -V base="${baseUrl}/blog/${slug}" \
+      -V base="${baseUrl}/${pageName}" \
       -V document-css=false
   '';
 
   installPhase = ''
     mkdir -p $out
-    cp -r * $out/
   '';
 }

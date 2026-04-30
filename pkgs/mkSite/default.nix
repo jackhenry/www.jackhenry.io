@@ -2,6 +2,7 @@
   pkgs,
   lib,
   postsSrc,
+  pagesSrc,
   baseUrl ? "https://example.com",
 }: let
   frontmatter = pkgs.callPackage ../../lib/frontmatter.nix {};
@@ -9,6 +10,11 @@
     lib.map (f: builtins.elemAt f 0)
     (lib.filter (f: builtins.elemAt f 1 == "directory")
       (lib.mapAttrsToList (n: t: [n t]) (builtins.readDir postsSrc)))
+  );
+  pageDirs = lib.filter (d: d != ".." && d != ".") (
+    lib.map (f: builtins.elemAt f 0)
+    (lib.filter (f: builtins.elemAt f 1 == "directory")
+      (lib.mapAttrsToList (n: t: [n t]) (builtins.readDir pagesSrc)))
   );
 
   mkPost = postDir: let
@@ -26,7 +32,23 @@
     };
   };
 
+  mkPage = pageDir: let
+    src = "${pagesSrc}/${pageDir}";
+    meta = frontmatter.parseFrontmatter "${src}/main.md";
+  in {
+    meta = meta // { pageName = pageDir; };
+    drv = pkgs.callPackage ../mkPage {
+      inherit src;
+      title = meta.title;
+      description = meta.description;
+      pubDate = meta.pubDate;
+      pageName = pageDir;
+      inherit baseUrl;
+    };
+  };
+
   generatedPosts = map mkPost postDirs;
+  generatedPages = map mkPage pageDirs;
 
   indexHtml = pkgs.writeTextFile {
     name = "index.html";
@@ -57,6 +79,12 @@ in
           cp -r ${post.drv}/* $out/blog/${post.meta.slug}/
         '')
         generatedPosts}
+
+      ${lib.concatMapStrings (page: ''
+          mkdir -p $out/${page.meta.pageName}
+          cp -r ${page.drv}/* $out/${page.meta.pageName}/
+        '')
+        generatedPages}
 
       cp -r ${../../css}/* $out/css/
       cp ${rssFeed} $out/rss.xml

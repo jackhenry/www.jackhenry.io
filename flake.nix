@@ -35,6 +35,7 @@
           site = pkgs.callPackage ./pkgs/mkSite {
             inherit lib;
             postsSrc = ./posts;
+            pagesSrc = ./pages;
             baseUrl = "https://www.jackhenry.io";
           };
           site-local = pkgs.writeShellScript "serve-local" ''
