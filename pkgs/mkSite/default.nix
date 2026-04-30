@@ -6,16 +6,14 @@
   baseUrl ? "https://example.com",
 }: let
   frontmatter = pkgs.callPackage ../../lib/frontmatter.nix {};
-  postDirs = lib.filter (d: d != ".." && d != ".") (
-    lib.map (f: builtins.elemAt f 0)
-    (lib.filter (f: builtins.elemAt f 1 == "directory")
-      (lib.mapAttrsToList (n: t: [n t]) (builtins.readDir postsSrc)))
-  );
-  pageDirs = lib.filter (d: d != ".." && d != ".") (
-    lib.map (f: builtins.elemAt f 0)
-    (lib.filter (f: builtins.elemAt f 1 == "directory")
-      (lib.mapAttrsToList (n: t: [n t]) (builtins.readDir pagesSrc)))
-  );
+  postDirs = lib.pipe (builtins.readDir postsSrc) [
+    (lib.filterAttrs (name: type: type == "directory"))
+    lib.attrNames
+  ];
+  pageDirs = lib.pipe (builtins.readDir pagesSrc) [
+    (lib.filterAttrs (name: type: type == "directory"))
+    lib.attrNames
+  ];
 
   mkPost = postDir: let
     src = "${postsSrc}/${postDir}";
