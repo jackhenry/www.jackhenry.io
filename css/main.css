@@ -1,0 +1,43 @@
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 1rem;
+  line-height: 1.6;
+}
+
+h1, h2, h3 {
+  line-height: 1.2;
+}
+
+a {
+  color: #0066cc;
+}
+
+pre {
+  background: #f4f4f4;
+  padding: 1rem;
+  overflow-x: auto;
+  border-radius: 4px;
+}
+
+code {
+  font-family: ui-monospace, monospace;
+}
+
+article header {
+  margin-bottom: 2rem;
+}
+
+article header h1 {
+  margin-bottom: 0.5rem;
+}
+
+article header time {
+  color: #666;
+}
+
+article main img {
+  max-width: 100%;
+  height: auto;
+}
