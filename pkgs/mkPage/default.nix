@@ -1,36 +1,55 @@
 {
   pkgs,
+  lib,
   src,
-  title,
-  description,
-  pubDate,
-  pageName,
+  metadata,
   baseUrl,
-}:
-pkgs.stdenv.mkDerivation {
-  name = pageName;
-  inherit src;
+  postList,
+}: let
+  postListMarkdown =
+    lib.concatMapStringsSep "\n" (
+      post: "- [${post.meta.title}](/blog/${post.meta.slug}/)"
+    )
+    postList;
+  metadataWithDefaults =
+    {
+      pubDate = "";
+      template = "template_page.html";
+      base = "${baseUrl}/${metadata.pageName}";
+    }
+    // metadata;
 
-  buildInputs = [pkgs.pandoc];
+  inherit (metadataWithDefaults) title description pubDate pageName template base;
+in
+  pkgs.stdenv.mkDerivation {
+    name = pageName;
+    inherit src;
 
-  buildPhase = ''
-    mkdir -p $out
-    cp ${../../templates/template_page.html} ./template_page.html
+    buildInputs = [pkgs.pandoc];
 
-    pandoc main.md \
-      --from gfm+alerts \
-      --standalone \
-      --template=./template_page.html \
-      --highlight-style=breezedark \
-      -o $out/index.html \
-      -V title="${title}" \
-      -V description="${description}" \
-      -V pubDate="${pubDate}" \
-      -V base="${baseUrl}/${pageName}" \
-      -V document-css=false
-  '';
+    buildPhase = let
+      resolvedTemplate = ../../templates/${template};
+      markdownSource = builtins.readFile "${src}/main.md";
+      hydratedMarkdownSource = builtins.replaceStrings ["{{post-list}}"] [postListMarkdown] markdownSource;
+    in ''
+      mkdir -p $out
+      cp ${resolvedTemplate} ./template.html
 
-  installPhase = ''
-    mkdir -p $out
-  '';
-}
+      echo "${markdownSource}"
+
+      echo "${hydratedMarkdownSource}" | pandoc \
+        --from gfm+alerts \
+        --standalone \
+        --template=./template.html \
+        --highlight-style=breezedark \
+        -o $out/index.html \
+        -V title="${title}" \
+        -V description="${description}" \
+        -V pubDate="${pubDate}" \
+        -V base="${base}"
+    '';
+
+    installPhase = ''
+      mkdir -p $out
+    '';
+  }

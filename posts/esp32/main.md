@@ -93,7 +93,7 @@ esp-generate --chip esp32c6 esp32-rust-dev
 
 The TUI for `esp-generate` will appear and provide some toggle options. Below is a screenshot of the options I used:
 
-![](/api/img/esp32/esp-generate.png)
+![](./img/esp-generate.png)
 
 After toggling desired toggles, and pressing `s`, the tool will scaffold a majority of the project. Now we move on to creating a `flake.nix`
 

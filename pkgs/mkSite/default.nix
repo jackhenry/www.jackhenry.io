@@ -30,33 +30,24 @@
     };
   };
 
+  generatedPosts = lib.pipe postDirs [
+    (map mkPost)
+    (lib.sort (a: b: a.meta.pubDate > b.meta.pubDate))
+  ];
+
   mkPage = pageDir: let
     src = "${pagesSrc}/${pageDir}";
     meta = frontmatter.parseFrontmatter "${src}/main.md";
   in {
-    meta = meta // { pageName = pageDir; };
+    meta = meta // {pageName = pageDir;};
     drv = pkgs.callPackage ../mkPage {
-      inherit src;
-      title = meta.title;
-      description = meta.description;
-      pubDate = meta.pubDate;
-      pageName = pageDir;
-      inherit baseUrl;
+      inherit src baseUrl;
+      metadata = meta // {pageName = pageDir;};
+      postList = generatedPosts;
     };
   };
 
-  generatedPosts = map mkPost postDirs;
   generatedPages = map mkPage pageDirs;
-
-  indexHtml = pkgs.writeTextFile {
-    name = "index.html";
-    text = pkgs.lib.replaceStrings ["{{posts}}"] [
-      (lib.concatMapStringsSep "\n" (post: ''
-          <li><a href="/blog/${post.meta.slug}/">${post.meta.title}</a></li>
-        '')
-        generatedPosts)
-    ] (builtins.readFile ../../templates/template_index.html);
-  };
 
   rssFeed = pkgs.callPackage ../../scripts/generate-rss.nix {
     posts = map (p: p.meta) generatedPosts;
@@ -78,15 +69,19 @@ in
         '')
         generatedPosts}
 
-      ${lib.concatMapStrings (page: ''
-          mkdir -p $out/${page.meta.pageName}
-          cp -r ${page.drv}/* $out/${page.meta.pageName}/
+      ${lib.concatMapStrings (page: let
+          dest =
+            if page.meta.pageName == "index"
+            then "$out"
+            else "$out/${page.meta.pageName}";
+        in ''
+          mkdir -p ${dest}
+          cp -r ${page.drv}/* ${dest}/
         '')
         generatedPages}
 
       cp -r ${../../css}/* $out/css/
       cp ${rssFeed} $out/rss.xml
-      cp ${indexHtml} $out/index.html
     '';
 
     installPhase = ''

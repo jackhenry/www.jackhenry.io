@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>My Blog</title>
+  <title>$title$</title>
+  <meta name="description" content="$description$">
   <link rel="stylesheet" href="/css/main.css">
   <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/rss.xml">
 </head>
@@ -13,16 +14,7 @@
     <a href="/rss.xml">RSS</a>
   </nav>
   <main>
-    <header class="bio">
-      <h1>Jack Henry</h1>
-      <p>An attempt at jotting down some thoughts. Below, you'll find a nascent collection of writings. Built using Nix. Not out of necessity, but because it seemed cool.</p>
-    </header>
-    <section>
-      <h2>Posts</h2>
-      <ul>
-        {{posts}}
-      </ul>
-    </section>
+    $body$
   </main>
 </body>
 </html>

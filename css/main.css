@@ -18,30 +18,39 @@
   }
 }
 
-* {
-  box-sizing: border-box;
-}
-
 body {
   font-family: Georgia, 'Times New Roman', serif;
   font-size: 18px;
   line-height: 1.75;
   background: var(--bg);
   color: var(--text);
-  max-width: 740px;
+  max-width: 720px;
   margin: 0 auto;
   padding: 2rem 1rem;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: system-ui, -apple-system, sans-serif;
   line-height: 1.25;
   margin: 2rem 0 1rem;
 }
 
-h1 { font-size: 2rem; }
-h2 { font-size: 1.5rem; }
-h3 { font-size: 1.25rem; }
+h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+h3 {
+  font-size: 1.25rem;
+}
 
 p {
   margin: 1.25em 0;
@@ -87,7 +96,8 @@ blockquote {
   color: var(--text-muted);
 }
 
-ul, ol {
+ul,
+ol {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -98,8 +108,7 @@ li {
 }
 
 article header {
-  margin-bottom: 3rem;
-  padding-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
 }
 
 article header h1 {
@@ -111,10 +120,23 @@ article header time {
   font-size: 0.9rem;
 }
 
-article main img {
+article div img {
   max-width: 100%;
   height: auto;
   border-radius: 4px;
+}
+
+article .tip {
+  background-color: var(--bg-alt);
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+article .tip .title {
+  color: var(--accent);
+  text-transform: uppercase;
 }
 
 article footer {
@@ -126,21 +148,6 @@ article footer {
 
 article footer a {
   color: var(--text-muted);
-}
-
-.bio {
-  margin-bottom: 3rem;
-}
-
-.bio h1 {
-  margin: 0 0 0.5rem;
-  font-size: 1.75rem;
-}
-
-.bio p {
-  margin: 0;
-  color: var(--text-muted);
-  font-size: 1rem;
 }
 
 nav {

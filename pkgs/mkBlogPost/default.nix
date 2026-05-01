@@ -29,7 +29,6 @@ pkgs.stdenv.mkDerivation {
       -V pubDate="${pubDate}" \
       -V slug="${slug}" \
       -V base="${baseUrl}/blog/${slug}" \
-      -V document-css=false
   '';
 
   installPhase = ''

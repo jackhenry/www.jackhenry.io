@@ -1,11 +1,10 @@
 ---
 title: 'Personal Lab Overview'
 description: 'Why not supplement my day job with more work?'
-pubDate: 2026-04-30
+pubDate: 2025-11-30
 ---
 
-*Work in progress. To be completed at a later date when I have time...
-General*
+*Work in progress. To be completed at a later date when I have time...*
 
 ## Background
 
