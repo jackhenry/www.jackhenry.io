@@ -7,7 +7,7 @@ root: true
 
 # Jack Henry
 
-An attempt at jotting down some thoughts. Below, you'll find a nascent collection of writings. Built using Nix. Not out of necessity, but because it seemed cool.
+An attempt at jotting down some thoughts. Below, you'll find a nascent collection of writings. Built using [Nix](https://github.com/jackhenry/www.jackhenry.io). Not out of necessity, but because it seemed cool.
 
 ## Things I've Written
 
